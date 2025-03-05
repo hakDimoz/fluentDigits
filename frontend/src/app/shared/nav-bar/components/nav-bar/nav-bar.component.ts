@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeControllerComponent } from "../../../theme/components/theme-controller/theme-controller.component";
+import { LayoutType } from '../../../theme/theme-controller.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,5 +9,5 @@ import { ThemeControllerComponent } from "../../../theme/components/theme-contro
   templateUrl: './nav-bar.component.html',
 })
 export class NavBarComponent {
-
+  readonly LayoutType = LayoutType;
 }

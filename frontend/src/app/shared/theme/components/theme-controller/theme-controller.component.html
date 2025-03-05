@@ -1,12 +1,12 @@
 @if (layoutType() === LayoutType.NO_BORDER) {
-<label class="swap swap-rotate">
+<label class="swap swap-rotate" (click)="onThemeControllerClick()">
   <!-- this hidden checkbox controls the state -->
-  <input type="checkbox" class="theme-controller" value="synthwave" />
+  <input [checked]="isChecked" type="checkbox" class="theme-controller" value="synthwave" (click)="preventCheckboxClick($event)"/>
 
   <!-- sun icon -->
   <svg
     class="swap-off fill-current"
-    [style]="{ width: svgSize(), height: svgSize()}"
+    [class]="svgSize()"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -18,7 +18,7 @@
   <!-- moon icon -->
   <svg
     class="swap-on fill-current"
-    [style]="{ width: svgSize(), height: svgSize()}"
+    [class]="svgSize()"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -28,8 +28,8 @@
   </svg>
 </label>
 } @else if (layoutType() === LayoutType.ECLIPSE) {
-<label class="toggle text-base-content">
-  <input type="checkbox" value="synthwave" class="theme-controller" />
+<label class="toggle text-base-content" (click)="onThemeControllerClick()">
+  <input [checked]="isChecked" type="checkbox" value="synthwave" class="theme-controller" />
 
   <svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g

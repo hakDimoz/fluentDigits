@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@google-cloud/text-to-speech": "^5.8.1",
-    "uuid": "^11.1.0"
-  }
-}
