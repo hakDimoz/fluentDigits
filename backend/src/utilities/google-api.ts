@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import textToSpeech from "@google-cloud/text-to-speech";
 import { writeFile } from "node:fs/promises";
 import { convertTextToSpeechRequest } from "../types/text-to-speech.model";
@@ -30,7 +29,10 @@ export const convertTextToSpeech = async (data: convertTextToSpeechRequest) => {
 		await writeFileAsync(outputFilePath, response.audioContent);
 
 		return `/audio/${outputFileName}`;
-	} catch (error) {}
+	} catch (error) {
+		console.error(error, "Error converting text to speech");
+		throw error;
+	}
 };
 
 function writeFileAsync(filePath: string, data: any) {
