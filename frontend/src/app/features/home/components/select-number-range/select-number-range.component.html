@@ -1,6 +1,6 @@
-<select class="select w-full">
-  <option disabled selected>Select Number Range</option>
-  <option>Crimson</option>
-  <option>Amber</option>
-  <option>Velvet</option>
+<select class="select w-full" [(ngModel)]="selectedNumberRange">
+  <option [ngValue]="null" disabled selected>Number Range</option>
+  @for (numberRange of numberRangeOptions; track $index) {
+    <option>{{numberRange}}</option>
+  }
 </select>

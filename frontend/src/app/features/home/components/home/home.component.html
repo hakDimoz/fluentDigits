@@ -1,16 +1,21 @@
 <div class="p-4 grid place-items-center">
-  <div
-    class="flex flex-col items-center mt-20 bg-base-200 shadow-sm p-4 rounded-lg space-y-6"
+  <form
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col items-center mt-48 p-4 space-y-6 w-96"
   >
-    <h1 class="text-2xl text-center">
-      Select the language and the range of numbers you want to practice!
-    </h1>
-
     <div class="flex gap-6 justify-between w-full">
-      <app-select-language class="flex-1"/>
-      <app-select-number-range class="flex-1" /> 
+      <app-select-language
+        (selectedLanguageChange)="onSelectedLanguageChange($event)"
+        class="flex-1"
+      />
+      <app-select-number-range
+        (numberRangeChange)="onNumberRangeChange($event)"
+        class="flex-1"
+      />
     </div>
 
-    <button class="btn btn-primary w-full">Practice!</button>
-  </div>
+    <button class="btn btn-primary rounded-4xl w-full">Practice!</button>
+  </form>
 </div>
+
+<!-- voice and accent -->

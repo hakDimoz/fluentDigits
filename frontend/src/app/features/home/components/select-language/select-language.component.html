@@ -1,6 +1,6 @@
-<select class="select w-full">
-  <option disabled selected>Select Language</option>
-  <option>Crimson</option>
-  <option>Amber</option>
-  <option>Velvet</option>
+<select class="select w-full" [(ngModel)]="selectedLanguage">
+  <option [ngValue]="null" disabled selected>Language</option>
+  @for (language of languages; track $index) {
+    <option [value]="language.code">{{language.name}}</option>
+  }
 </select>
