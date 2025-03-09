@@ -4,5 +4,6 @@ import * as numberController from "../controllers/number.controller";
 const router = express.Router();
 
 router.get("/random", numberController.getRandomNumberSpeech);
+router.get("/voices", numberController.getVoicesList);
 
 export default router;

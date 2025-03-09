@@ -3,26 +3,8 @@ import {
   getRandomNumbersSpeechRequest,
 } from "../types/number.model";
 import { Request, Response } from "express";
-import textToSpeech from "@google-cloud/text-to-speech";
-import { convertTextToSpeech } from "../utilities/google-api";
-import { convertTextToSpeechRequest } from "../types/text-to-speech.model";
-
-export const getRandomNumbersSpeech = async (req: Request, res: Response) => {
-  const data: getRandomNumbersSpeechRequest = req.body;
-
-  // generate random numbers
-  const randomNumbers: number[] = [];
-  for (let i = 0; i < data.amount; i++) {
-    randomNumbers.push(
-      Math.floor(Math.random() * (data.range.max - data.range.min + 1)) +
-        data.range.min
-    );
-  }
-
-  // generate speech
-
-  res.status(200).json(randomNumbers);
-};
+import { convertTextToSpeech, listVoices } from "../utilities/google-api";
+import { ConvertTextToSpeechRequest, ListVoicesRequest } from "../types/text-to-speech.model";
 
 export const getRandomNumberSpeech = async (req: Request, res: Response) => {
   try {
@@ -32,7 +14,7 @@ export const getRandomNumberSpeech = async (req: Request, res: Response) => {
       Math.random() * (data.range.max - data.range.min + 1) + data.range.min
     );
 
-    const request: convertTextToSpeechRequest = {
+    const request: ConvertTextToSpeechRequest = {
       text: randomNumber.toString(),
       languageCode: data.languageCode,
       voiceName: data.voiceName ?? "",
@@ -46,3 +28,19 @@ export const getRandomNumberSpeech = async (req: Request, res: Response) => {
     return;
   }
 };
+
+export const getVoicesList = async (req: Request, res: Response) => { 
+  try {
+    const data: ListVoicesRequest = req.body;
+    const request = {
+      languageCode: data.languageCode,
+    };
+
+    const result = await listVoices(request);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error, "Error generating voices list");
+    res.status(500).json({ message: "Internal server error" });
+    return;
+  }
+}

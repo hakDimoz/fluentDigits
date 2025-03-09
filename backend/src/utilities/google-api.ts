@@ -1,13 +1,20 @@
 import textToSpeech from "@google-cloud/text-to-speech";
 import { writeFile } from "node:fs/promises";
-import { convertTextToSpeechRequest } from "../types/text-to-speech.model";
+import {
+	ConvertTextToSpeechRequest,
+	ListVoicesRequest,
+} from "../types/text-to-speech.model";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import fs from "fs";
+import { mkdir } from "node:fs/promises";
+import { access, constants } from "node:fs";
 
-const client = new textToSpeech.TextToSpeechClient();
+const client = new textToSpeech.TextToSpeechClient({
+	keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+});
 
-export const convertTextToSpeech = async (data: convertTextToSpeechRequest) => {
+export const convertTextToSpeech = async (data: ConvertTextToSpeechRequest) => {
 	try {
 		const request = {
 			input: { text: data.text },
@@ -15,22 +22,59 @@ export const convertTextToSpeech = async (data: convertTextToSpeechRequest) => {
 			audioConfig: { audioEncoding: "MP3" as const },
 		};
 
-		const outputFileName = `${uuidv4()}.mp3`;
-		const outputFilePath = path.join(
+		//TODO: output file name should be number and check if it already exists, if so return the existing file
+		// Check if number already exists
+
+		const outputFileName = `${data.text}.mp3`;
+		const outputDir = path.join(
 			__dirname,
 			"..",
 			"public",
 			"audio",
-			outputFileName
+			data.languageCode
 		);
+		const outputFilePath = path.join(outputDir, outputFileName);
 
+		await mkdir(outputDir, { recursive: true });
+
+		// Check if file already exists
+		access(outputFilePath, constants.F_OK, (err) => {
+			if (!err) {
+				// File exists, return the existing file path
+				return `/audio/${data.languageCode}/${outputFileName}`;
+			}
+		});
+
+		// Generate new audio file
 		const [response] = await client.synthesizeSpeech(request);
 
-		await writeFileAsync(outputFilePath, response.audioContent);
+		await writeFileAsync(outputFilePath, response.audioContent).catch(
+			(err) => {
+				console.error(err, "Error writing audio file");
+				throw err;
+			}
+		);
 
-		return `/audio/${outputFileName}`;
+		return `/audio/${data.languageCode}/${outputFileName}`;
 	} catch (error) {
 		console.error(error, "Error converting text to speech");
+		throw error;
+	}
+};
+
+export const listVoices = async (data: ListVoicesRequest) => {
+	try {
+		const [result] = await client.listVoices({languageCode: data.languageCode});
+		const voices = result.voices!;
+
+		// Filter by Standard voices
+		const standardVoices = voices.filter((voice) =>
+			voice.name!.includes("Standard")
+		);
+
+		return standardVoices;
+	} catch (error) {
+		console.error(error, "Error listing voices");
 		throw error;
 	}
 };
