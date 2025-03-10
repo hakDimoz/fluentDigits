@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LanguageOption } from '@shared/language.types';
-import { Observable, of, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { RandomNumberAudioRequest } from './language.types';
 
@@ -15,12 +15,17 @@ export class LanguagesService {
   private http = inject(HttpClient);
   private cachedLanguages: LanguageOption[] | null = null;
 
-  getRandomNumberAudio(request: RandomNumberAudioRequest) {
-    return this.http
-      .get<{ audio: string }>(
-        `${this.apiURL}/random` 
-      )
-      .pipe(map((response) => this.baseUrl + response.audio));
+  getRandomNumberAudio(
+    min: number,
+    max: number,
+    languageCode: string,
+    voiceName?: string
+  ): Observable<{ number: number; audio: string }> {
+    return this.http.get<{ number: number; audio: string }>(
+      `${this.apiURL}/random?min=${min}&max=${max}&languageCode=${languageCode}${
+        voiceName ? '&voiceName=' + voiceName : ''
+      }`
+    );
   }
 
   getLanguages(): Observable<LanguageOption[]> {

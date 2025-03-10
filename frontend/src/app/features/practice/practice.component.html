@@ -1,1 +1,9 @@
-<p>practice works!</p>
+<div>
+  <div>
+    <audio [src]="currentAudio()"></audio>
+    <div>
+        <input type="number" placeholder="Type here" class="input" [(ngModel)]="guess"/>
+        <button class="btn btn-primary" (click)="onGuess()">Guess</button>
+    </div>
+  </div>
+</div>

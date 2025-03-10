@@ -76,7 +76,31 @@ export const languageMap = {
 
 export const getRandomNumberSpeech = async (req: Request, res: Response) => {
 	try {
-		const data: getRandomNumberSpeechRequest = req.body;
+		const {
+			min,
+			max,
+			languageCode,
+			voiceName,
+		} = req.query; 
+
+		if (!min || !max) {
+			res.status(400).json({ message: "A minimum and maximum range is required" });
+			return;
+		}
+
+		if (!languageCode) {
+			res.status(400).json({ message: "Language code is required" });
+			return;
+		}
+
+		const data: getRandomNumberSpeechRequest = {
+			range: {
+				min: parseInt(min as string, 10),
+				max: parseInt(max as string, 10),
+			},
+			languageCode: languageCode as string,
+			voiceName: voiceName as string,
+		};
 
 		const randomNumber = Math.floor(
 			Math.random() * (data.range.max - data.range.min + 1) +
@@ -90,7 +114,7 @@ export const getRandomNumberSpeech = async (req: Request, res: Response) => {
 		};
 
 		const audioFilePath = await convertTextToSpeech(request);
-		res.status(200).json({ audio: audioFilePath });
+		res.status(200).json({ number: randomNumber, audio: audioFilePath });
 	} catch (error) {
 		console.error(error, "Error generating speech");
 		res.status(500).json({ message: "Internal server error" });
