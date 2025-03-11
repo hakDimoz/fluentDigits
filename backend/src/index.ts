@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/audio', express.static(path.join(__dirname, 'public/audio')));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Routes
 import numberRouter from "./routes/number.route";

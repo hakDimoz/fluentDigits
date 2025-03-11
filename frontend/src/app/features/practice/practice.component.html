@@ -1,9 +1,13 @@
 <div>
-  <div>
-    <audio [src]="currentAudio()"></audio>
-    <div>
-        <input type="number" placeholder="Type here" class="input" [(ngModel)]="guess"/>
-        <button class="btn btn-primary" (click)="onGuess()">Guess</button>
-    </div>
-  </div>
+  <!-- Audio -->
+  <audio [src]="currentQuestion()?.audio"></audio>
+  <!-- Guessing -->
+  <!-- TODO: Add if statement for loding -->
+  @if(isLoading) { }@else {
+
+  <app-guess
+    [currentNumber]="currentQuestion()?.number"
+    (guessed)="onGuessed()"
+  />
+  }
 </div>

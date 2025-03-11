@@ -4,6 +4,7 @@ import { LanguageOption } from '@shared/language.types';
 import { map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { RandomNumberAudioRequest } from './language.types';
+import { Question } from '../../features/practice/practice.types';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class LanguagesService {
     max: number,
     languageCode: string,
     voiceName?: string
-  ): Observable<{ number: number; audio: string }> {
+  ): Observable<Question> {
     return this.http.get<{ number: number; audio: string }>(
       `${this.apiURL}/random?min=${min}&max=${max}&languageCode=${languageCode}${
         voiceName ? '&voiceName=' + voiceName : ''
