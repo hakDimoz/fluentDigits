@@ -1,13 +1,15 @@
-<div>
-  <!-- Audio -->
-  <audio [src]="currentQuestion()?.audio"></audio>
-  <!-- Guessing -->
-  <!-- TODO: Add if statement for loding -->
-  @if(isLoading) { }@else {
-
-  <app-guess
-    [currentNumber]="currentQuestion()?.number"
-    (guessed)="onGuessed()"
-  />
-  }
+@if (isLoading()) {
+<div class="text-center mt-80">
+  <span class="loading loading-bars loading-xl"></span>
 </div>
+} @else {
+<div class="flex flex-col items-center justify-center mt-64">
+  <div class="w-96">
+    <!-- Audio -->
+    <app-audio [audioUrl]="currentQuestion()?.audio" class="w-full flex justify-center pb-8"/>
+    <!-- Guessing -->
+    <app-guess [currentQuestion]="currentQuestion()!" (guessed)="onGuessed()" class="w-full"/>
+  </div>
+</div>
+
+}
