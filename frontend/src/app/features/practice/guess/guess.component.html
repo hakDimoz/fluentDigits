@@ -13,9 +13,9 @@
   </div>
 
   <!-- Guessed numbers -->
-  <ul class="list w-full">
+  <ul class="list w-full max-h-40 overflow-y-auto">
 
-    @for (number of guessedNumbers(); track $index) {
+    @for (number of reversedGuessedNumbers(); track $index) {
     <li
       class="list-row hover:bg-base-200 hover:cursor-pointer flex justify-between"
       [class]="{

@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { GuessComponent } from './guess/guess.component';
 import { Question } from './practice.types';
 import { AudioComponent } from "./audio/audio.component";
+import { SettingsComponent } from '../../shared/settings/settings.component';
+import { StreakComponent } from "./streak/streak.component";
 
 @Component({
   selector: 'app-practice',
   standalone: true,
-  imports: [FormsModule, GuessComponent, AudioComponent],
+  imports: [FormsModule, GuessComponent, AudioComponent, SettingsComponent, StreakComponent],
   templateUrl: './practice.component.html',
 })
 export class PracticeComponent implements OnInit {
@@ -23,8 +25,8 @@ export class PracticeComponent implements OnInit {
     this.getNewQuestion();
   }
 
-  getNewQuestion() {
-    this.languagesService.getRandomNumberAudio(0, 10, 'en-US').subscribe({
+  getNewQuestion() {                              
+    this.languagesService.getRandomNumberAudio(0, 10, 'ja-JP').subscribe({
       next: (response) => {
         this.currentQuestion.set(response);
         console.log(this.currentQuestion());

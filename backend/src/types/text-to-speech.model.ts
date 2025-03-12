@@ -1,7 +1,7 @@
 export interface ConvertTextToSpeechRequest { 
     text: string,
     languageCode: string,
-    voiceName: string
+    voiceName?: string
 }
 
 export interface ListVoicesRequest { 

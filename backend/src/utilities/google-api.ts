@@ -16,11 +16,15 @@ const client = new textToSpeech.TextToSpeechClient({
 
 export const convertTextToSpeech = async (data: ConvertTextToSpeechRequest) => {
 	try {
-		const request = {
+		const request: any = {
 			input: { text: data.text },
-			voice: { languageCode: data.languageCode, name: data.voiceName },
+			voice: { languageCode: data.languageCode },
 			audioConfig: { audioEncoding: "MP3" as const },
 		};
+
+		if (data.voiceName) {
+			request.voice.name = data.voiceName;
+		}
 
 		//TODO: output file name should be number and check if it already exists, if so return the existing file
 		// Check if number already exists
@@ -44,6 +48,7 @@ export const convertTextToSpeech = async (data: ConvertTextToSpeechRequest) => {
 				return `/audio/${data.languageCode}/${outputFileName}`;
 			}
 		});
+
 
 		// Generate new audio file
 		const [response] = await client.synthesizeSpeech(request);

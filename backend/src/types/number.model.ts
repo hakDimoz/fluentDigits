@@ -7,5 +7,5 @@ export interface getRandomNumbersSpeechRequest {
 export interface getRandomNumberSpeechRequest { 
 	range: { min: number; max: number };
 	languageCode: string;
-	voiceName: string;
+	voiceName?: string;
 }

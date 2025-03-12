@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Guess } from './guess.types';
 import { Question } from '../practice.types';
@@ -15,6 +15,7 @@ export class GuessComponent {
 
   guess = signal<number | undefined>(undefined);
   guessedNumbers = signal<Guess[]>([]);
+  reversedGuessedNumbers = computed(() => this.guessedNumbers().slice().reverse());
   isCorrect = signal<boolean | undefined>(undefined);
 
   onGuess() {

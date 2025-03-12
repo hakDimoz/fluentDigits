@@ -99,7 +99,7 @@ export const getRandomNumberSpeech = async (req: Request, res: Response) => {
 				max: parseInt(max as string, 10),
 			},
 			languageCode: languageCode as string,
-			voiceName: voiceName as string,
+			// voiceName: voiceName as string,
 		};
 
 		const randomNumber = Math.floor(
@@ -110,14 +110,15 @@ export const getRandomNumberSpeech = async (req: Request, res: Response) => {
 		const request: ConvertTextToSpeechRequest = {
 			text: randomNumber.toString(),
 			languageCode: data.languageCode,
-			voiceName: data.voiceName ?? "",
+			// voiceName: data.voiceName ?? undefined,
 		};
+
 
 		const audioFilePath = await convertTextToSpeech(request);
 		res.status(200).json({ number: randomNumber, audio: audioFilePath });
 	} catch (error) {
 		console.error(error, "Error generating speech");
-		res.status(500).json({ message: "Internal server error" });
+		res.status(500).json({ message: "Error generating speech" });
 		return;
 	}
 };

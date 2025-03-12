@@ -6,9 +6,21 @@
 <div class="flex flex-col items-center justify-center mt-48">
   <div class="w-96">
     <!-- Audio -->
-    <app-audio [audioUrl]="currentQuestion()?.audio" class="w-full flex justify-center pb-8"/>
+    <app-audio
+      [audioUrl]="currentQuestion()?.audio"
+      class="w-full flex justify-center pb-8"
+    />
+    <!-- Settings and Streak -->
+    <div class="flex justify-end gap-2 mb-2">
+      <app-streak />
+      <app-settings />
+    </div>
     <!-- Guessing -->
-    <app-guess [currentQuestion]="currentQuestion()!" (guessed)="onGuessed()" class="w-full"/>
+    <app-guess
+      [currentQuestion]="currentQuestion()!"
+      (guessed)="onGuessed()"
+      class="w-full"
+    />
   </div>
 </div>
 
