@@ -18,27 +18,34 @@ export class GuessComponent {
   isCorrect = signal<boolean | undefined>(undefined);
 
   onGuess() {
-    console.log('guess', this.guess());
     if (this.guess() === this.currentQuestion().number) {
-      this.isCorrect.set(true);
-      this.guessedNumbers.set([
-        ...this.guessedNumbers(),
-        { number: this.currentQuestion().number, audio: this.currentQuestion().audio, correct: true },
-      ]);
+      this.addGuessToGuessedNumbers({
+        ...this.currentQuestion(),
+        correct: true,
+      });
 
+      this.isCorrect.set(true);
+      this.clearGuessInput();
       this.guessed.emit();
       return;
     }
 
     this.isCorrect.set(false);
-    console.log(this.isCorrect());
   }
 
   onSkip() {
-    this.guessedNumbers.set([
-      ...this.guessedNumbers(),
-      { number: this.currentQuestion().number, audio: this.currentQuestion().audio, correct: false },
-    ]);
+    this.addGuessToGuessedNumbers({
+      ...this.currentQuestion(),
+      correct: false,
+    });
     this.guessed.emit();
+  }
+
+  clearGuessInput() {
+    this.guess.set(undefined);
+  }
+
+  addGuessToGuessedNumbers(guess: Guess) {
+    this.guessedNumbers.set([...this.guessedNumbers(), guess]);
   }
 }

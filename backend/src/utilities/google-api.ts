@@ -1,14 +1,14 @@
 import textToSpeech from "@google-cloud/text-to-speech";
-import { writeFile } from "node:fs/promises";
 import {
 	ConvertTextToSpeechRequest,
 	ListVoicesRequest,
 } from "../types/text-to-speech.model";
-import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import fs from "fs";
 import { mkdir } from "node:fs/promises";
-import { access, constants } from "node:fs";
+import { access, constants, existsSync } from "node:fs";
+
+
 
 const client = new textToSpeech.TextToSpeechClient({
 	keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,

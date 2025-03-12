@@ -5,6 +5,7 @@
       type="number"
       placeholder="Type here"
       class="input flex-1"
+      [class]="{'input-error': isCorrect() === false}"
       [(ngModel)]="guess"
     />
     <button class="btn btn-primary" (click)="onGuess()">Guess</button>

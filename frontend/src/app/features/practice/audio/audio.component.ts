@@ -1,10 +1,12 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
-  inject,
   input,
+  OnChanges,
   signal,
+  SimpleChanges,
   viewChild,
 } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
@@ -23,21 +25,38 @@ export class AudioComponent {
   src = computed(() => `${this.environment.apiURL + this.audioUrl()}`);
   isPlaying = signal<boolean>(false);
 
+  //TODO: Maybe not on src change but just on guess and skip press
+  constructor() {
+    effect(() => {
+      const newSrc = this.src();
+      console.log("prague")
+      if (newSrc) {
+        queueMicrotask(() => this.play()); 
+      }
+    });
+  }
+
   togglePlay() {
     const audio = this.audioRef().nativeElement;
 
     if (audio.paused) {
-      audio.play();
-      this.isPlaying.set(true);
+      this.play();
     } else {
-      audio.pause();
-      this.isPlaying.set(false);
+      this.pause();
     }
+  }
+
+  play() {
+    this.audioRef().nativeElement.play();
+    this.isPlaying.set(true);
+  }
+
+  pause() {
+    this.audioRef().nativeElement.pause();
+    this.isPlaying.set(false);
   }
 
   onEnded() {
     this.isPlaying.set(false);
   }
-
-
 }
