@@ -1,26 +1,18 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { LanguageOption } from '@shared/language.types';
+import { NumberRange, SettingOptions } from './settings.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  private languageOption = signal<LanguageOption | null>(null);
-  private numberRange = signal<string | null>(null);
+  selectedLanguage = signal<LanguageOption>({ code: 'en-US', name: 'English', voices: [] });
+  selectedNumberRange = signal<NumberRange>({ min: 0, max: 10 });
 
-  getLanguageOption() { 
-    return this.languageOption();
-  }
-
-  getNumberRange() {
-    return this.numberRange();
-  }
-
-  setLanguageOption(language: LanguageOption | null) { 
-    this.languageOption.set(language);
-  }
-
-  setNumberRange(range: string | null) {
-    this.numberRange.set(range);
+  constructor() {
+    effect(() => {
+      console.log('Language Option:', this.selectedLanguage());
+      console.log('Number Range:', this.selectedNumberRange());
+    })
   }
 }

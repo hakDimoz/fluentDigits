@@ -1,7 +1,15 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Guess } from './guess.types';
 import { Question } from '../practice.types';
+import { PracticeService } from '../practice.service';
 
 @Component({
   selector: 'app-guess',
@@ -10,18 +18,21 @@ import { Question } from '../practice.types';
   templateUrl: './guess.component.html',
 })
 export class GuessComponent {
-  currentQuestion = input.required<Question>();
+  practiceService = inject(PracticeService);
+  currentQuestion = this.practiceService.currentQuestion;
   guessed = output();
 
   guess = signal<number | undefined>(undefined);
   guessedNumbers = signal<Guess[]>([]);
-  reversedGuessedNumbers = computed(() => this.guessedNumbers().slice().reverse());
+  reversedGuessedNumbers = computed(() =>
+    this.guessedNumbers().slice().reverse()
+  );
   isCorrect = signal<boolean | undefined>(undefined);
 
   onGuess() {
-    if (this.guess() === this.currentQuestion().number) {
+    if (this.guess() === this.currentQuestion()!.number) {
       this.addGuessToGuessedNumbers({
-        ...this.currentQuestion(),
+        ...this.currentQuestion()!,
         correct: true,
       });
 
@@ -36,7 +47,7 @@ export class GuessComponent {
 
   onSkip() {
     this.addGuessToGuessedNumbers({
-      ...this.currentQuestion(),
+      ...this.currentQuestion()!,
       correct: false,
     });
     this.guessed.emit();

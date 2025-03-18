@@ -1,0 +1,8 @@
+<label class="select w-full">
+  <span class="label">Range</span>
+  <select class="" [(ngModel)]="selectedNumberRange" (change)="onNumberRangeChange()">
+    @for (numberRange of numberRangeOptions; track $index) {
+    <option [ngValue]="numberRange" >{{ numberRange.min }} - {{numberRange.max}}</option>
+    }
+  </select>
+</label>

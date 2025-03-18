@@ -23,16 +23,15 @@ export class AudioComponent {
 
   audioUrl = input.required<string | undefined>();
   src = computed(() => `${this.environment.apiURL + this.audioUrl()}`);
+  playEvent = input.required<number>();
   isPlaying = signal<boolean>(false);
 
-  //TODO: Maybe not on src change but just on guess and skip press
   constructor() {
     effect(() => {
-      const newSrc = this.src();
-      console.log("prague")
-      if (newSrc) {
-        queueMicrotask(() => this.play()); 
-      }
+      this.playEvent();
+      queueMicrotask(() => {
+        this.play()
+      });
     });
   }
 

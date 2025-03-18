@@ -1,17 +1,14 @@
 <div class="p-4 grid place-items-center">
   <form
     (ngSubmit)="onSubmit()"
-    class="flex flex-col items-center mt-48 p-4 space-y-6 w-96"
+    class="flex flex-col items-center mt-48 p-4 space-y-6"
   >
-    <div class="flex gap-6 justify-between w-full">
-      <app-select-language
-        (selectedLanguageChange)="onSelectedLanguageChange($event)"
-        class="flex-1"
-      />
-      <app-select-number-range
-        (numberRangeChange)="onNumberRangeChange($event)"
-        class="flex-1"
-      />
+    <div class="flex gap-6 justify-between">
+      <div class="flex-1 relative">
+ 
+        <app-select-language (languageChange)="onLanguageChange($event)"/>
+      </div>
+      <app-select-number-range class="flex-1" (numberRangeChange)="onNumberRangeChange($event)"/>
     </div>
 
     <button class="btn btn-primary rounded-4xl w-full">Practice!</button>

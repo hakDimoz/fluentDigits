@@ -22,7 +22,6 @@ export class ThemeControllerService {
 
   toggleTheme() {
     const currentTheme = this.getTheme();
-    console.log(currentTheme);
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     this.setTheme(newTheme);
   }

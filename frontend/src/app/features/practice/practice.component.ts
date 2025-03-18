@@ -1,41 +1,54 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal, viewChild } from '@angular/core';
 import { LanguagesService } from '../../shared/languages/languages.service';
 import { FormsModule } from '@angular/forms';
 import { GuessComponent } from './guess/guess.component';
 import { Question } from './practice.types';
-import { AudioComponent } from "./audio/audio.component";
+import { AudioComponent } from './audio/audio.component';
 import { SettingsComponent } from '../../shared/settings/settings.component';
-import { StreakComponent } from "./streak/streak.component";
+import { StreakComponent } from './streak/streak.component';
+import { PracticeService } from './practice.service';
+import { SettingsService } from '../../shared/settings/settings.service';
+import { queue } from 'rxjs';
 
 @Component({
   selector: 'app-practice',
   standalone: true,
-  imports: [FormsModule, GuessComponent, AudioComponent, SettingsComponent, StreakComponent],
+  imports: [
+    FormsModule,
+    GuessComponent,
+    AudioComponent,
+    SettingsComponent,
+    StreakComponent,
+  ],
   templateUrl: './practice.component.html',
 })
 export class PracticeComponent implements OnInit {
-  languagesService = inject(LanguagesService);
+  practiceService = inject(PracticeService);
+  settingsService = inject(SettingsService);
 
-  currentQuestion = signal<Question | undefined>(undefined);
-  currentLanguage = signal<string | undefined>(undefined);
-  currentVoice = signal<string | undefined>(undefined);
+  currentQuestion = this.practiceService.currentQuestion;
   isLoading = computed(() => !this.currentQuestion());
+
+  selectedNumberRange = this.settingsService.selectedNumberRange;
+  selectedLanguage = this.settingsService.selectedLanguage;
+  playAudioEvent = signal<number>(0);
+
+  constructor() {
+    // Get the audio to play when the component is initialized
+    effect(() => {
+      this.currentQuestion();
+      queueMicrotask(() => {
+        this.playAudioEvent.set(this.playAudioEvent() + 1);
+      })
+
+    }) 
+  }
 
   ngOnInit() {
     this.getNewQuestion();
   }
 
-  getNewQuestion() {                              
-    this.languagesService.getRandomNumberAudio(0, 10, 'ja-JP').subscribe({
-      next: (response) => {
-        this.currentQuestion.set(response);
-        console.log(this.currentQuestion());
-      },
-      error: (error) => console.error(error.message),
-    });
-  }
-
-  onGuessed() {
-    this.getNewQuestion();
+  getNewQuestion() {
+    this.practiceService.setNewQuestion(this.selectedNumberRange().min, this.selectedNumberRange().max, this.selectedLanguage()!.code);
   }
 }

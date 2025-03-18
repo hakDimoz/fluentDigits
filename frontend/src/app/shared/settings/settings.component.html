@@ -1,3 +1,4 @@
+<!-- Open Modal Button -->
 <button (click)="showModal()">
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -19,6 +20,36 @@
     />
   </svg>
 </button>
-<dialog #settingsModal>
-asdfgads
+
+<!-- Modal -->
+<dialog
+  #settingsModal
+  (click)="onBackdropClick($event)"
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-base-100 rounded-2xl shadow-lg w-96"
+>
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-xl font-bold">Settings</h1>
+    <button class="hover:cursor-pointer" (click)="closeModal()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18 18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
+    <app-select-language (languageChange)="onLanguageChange($event)" />
+    <app-select-number-range (numberRangeChange)="onNumberRangeChange($event)"/>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
 </dialog>

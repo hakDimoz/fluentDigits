@@ -1,0 +1,8 @@
+<label class="select w-full" [class]="extraStyle()">
+  <span class="label">Language</span>
+  <select class="" [(ngModel)]="selectedLanguage" (change)="onLanguageChange()">
+    @for (language of languages(); track $index) {
+    <option [ngValue]="language">{{ language.name }}</option>
+    }
+  </select>
+</label>
