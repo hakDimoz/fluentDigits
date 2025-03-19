@@ -1,5 +1,5 @@
 <!-- Open Modal Button -->
-<button (click)="showModal()">
+<button class="flex items-center" (click)="showModal()">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -50,6 +50,10 @@
   <form (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
     <app-select-language (languageChange)="onLanguageChange($event)" />
     <app-select-number-range (numberRangeChange)="onNumberRangeChange($event)"/>
+
+    <div class="divider divider-start text-sm opacity-60">Keybinds</div>
+    <app-keybind [keybindOption]="KeybindOption.ToggleAudio"/>  
+
     <button type="submit" class="btn btn-primary">Save</button>
   </form>
 </dialog>

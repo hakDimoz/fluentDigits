@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
 import { LanguagesService } from '../../shared/languages/languages.service';
 import { FormsModule } from '@angular/forms';
 import { GuessComponent } from './guess/guess.component';
@@ -9,6 +9,7 @@ import { StreakComponent } from './streak/streak.component';
 import { PracticeService } from './practice.service';
 import { SettingsService } from '../../shared/settings/settings.service';
 import { queue } from 'rxjs';
+import { VolumeComponent } from "./audio/volume/volume.component";
 
 @Component({
   selector: 'app-practice',
@@ -19,10 +20,11 @@ import { queue } from 'rxjs';
     AudioComponent,
     SettingsComponent,
     StreakComponent,
-  ],
+    VolumeComponent
+],
   templateUrl: './practice.component.html',
 })
-export class PracticeComponent implements OnInit {
+export class PracticeComponent implements OnInit, OnDestroy {
   practiceService = inject(PracticeService);
   settingsService = inject(SettingsService);
 
@@ -46,6 +48,10 @@ export class PracticeComponent implements OnInit {
 
   ngOnInit() {
     this.getNewQuestion();
+  }
+
+  ngOnDestroy(): void {
+    this.practiceService.currentQuestion.set(undefined);
   }
 
   getNewQuestion() {

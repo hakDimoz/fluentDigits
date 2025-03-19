@@ -12,15 +12,18 @@ import { SelectNumberRangeComponent } from './select-number-range/select-number-
 import { SettingsService } from './settings.service';
 import { LanguageOption } from '@shared/language.types';
 import { FormsModule } from '@angular/forms';
-import { NumberRange } from './settings.types';
+import { KeybindOption, NumberRange } from './settings.types';
+import { KeybindComponent } from "./keybind/keybind.component";
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [SelectLanguageComponent, SelectNumberRangeComponent, FormsModule],
+  imports: [SelectLanguageComponent, SelectNumberRangeComponent, FormsModule, KeybindComponent],
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
+  readonly KeybindOption = KeybindOption;
+  
   settingsService = inject(SettingsService);
   settingsModal =
     viewChild.required<ElementRef<HTMLDialogElement>>('settingsModal');
