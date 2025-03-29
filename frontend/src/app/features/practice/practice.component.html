@@ -1,4 +1,4 @@
-@if (isLoading()) {
+@if (isFirstLoad()) {
 <div class="text-center mt-80">
   <span class="loading loading-bars loading-xl"></span>
 </div>
@@ -7,7 +7,6 @@
   <div class="w-96">
     <!-- Audio -->
     <app-audio
-      [playEvent]="playAudioEvent()"
       [audioUrl]="currentQuestion()?.audio"
       class="w-full flex justify-center pb-8"
     />

@@ -18,7 +18,7 @@ import { NumberRange } from '../settings.types';
   imports: [FormsModule],
   templateUrl: './select-number-range.component.html',
 })
-export class SelectNumberRangeComponent implements OnInit{
+export class SelectNumberRangeComponent implements OnInit {
   settingsService = inject(SettingsService);
   numberRangeOptions: NumberRange[] = [
     { min: 0, max: 10 },
@@ -30,17 +30,32 @@ export class SelectNumberRangeComponent implements OnInit{
   ];
   selectedNumberRange!: NumberRange;
   numberRangeChange = output<NumberRange>();
+  isModalOpen = computed(() => this.settingsService.isModalOpen());
+
+  constructor() {
+    effect(() => {
+      if(this.isModalOpen()) {
+        this.initialiseNumberRange();
+      }
+    })
+  }
 
   ngOnInit() {
+    this.initialiseNumberRange();
+  }
+
+  initialiseNumberRange() {
     // Makes copy of the selected number range so two-way binding works
-    this.selectedNumberRange = this.numberRangeOptions.find((range) => {
-      return range.min === this.settingsService.selectedNumberRange().min &&
-        range.max === this.settingsService.selectedNumberRange().max;
-    }) || this.numberRangeOptions[0];
+    this.selectedNumberRange =
+      this.numberRangeOptions.find((range) => {
+        return (
+          range.min === this.settingsService.selectedNumberRange().min &&
+          range.max === this.settingsService.selectedNumberRange().max
+        );
+      }) || this.numberRangeOptions[0];
   }
 
   onNumberRangeChange() {
     this.numberRangeChange.emit(this.selectedNumberRange);
   }
-
 }

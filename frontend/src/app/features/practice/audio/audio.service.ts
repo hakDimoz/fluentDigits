@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AudioService {
   private audioElement?: HTMLAudioElement;
+  duration = signal(0);
+  isLoadingAudio = signal(false);
+  isPlaying = signal(false);
+  hasPlayedOnce = signal(false);
 
   setAudioElement(audioElement: HTMLAudioElement) {
     this.audioElement = audioElement;

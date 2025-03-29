@@ -3,18 +3,25 @@
   <div class="flex gap-2 w-full">
     <input
       type="number"
-      placeholder="Type here"
+      placeholder="Enter number"
       class="input flex-1"
-      [class]="{'input-error': isCorrect() === false}"
+      [class]="{ 'input-error': isCorrect() === false }"
       [(ngModel)]="guess"
     />
-    <button class="btn btn-primary" (click)="onGuess()">Guess</button>
-    <button class="btn btn-secondary" (click)="onSkip()">Skip</button>
+    <button
+      class="btn btn-primary"
+      [disabled]="!practiceService.canGuess()"
+      (click)="onGuess()"
+    >
+      Guess
+    </button>
+    <button class="btn btn-secondary" [disabled]="!practiceService.canGuess()" (click)="onSkip()">
+      Skip
+    </button>
   </div>
 
   <!-- Guessed numbers -->
   <ul class="list w-full max-h-40 overflow-y-auto">
-
     @for (number of reversedGuessedNumbers(); track $index) {
     <li
       class="list-row hover:bg-base-200 hover:cursor-pointer flex justify-between"
@@ -46,4 +53,4 @@
     }
   </ul>
 </div>
-<h1 class="mt-20">Current number: {{ currentQuestion()!.number }}</h1>
+<h1 class="mt-20">Current number: {{ currentQuestion()?.number }}</h1>

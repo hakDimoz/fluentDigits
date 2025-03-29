@@ -1,13 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { AudioService } from '../audio.service';
+import { SettingsService } from '../../../../shared/settings/settings.service';
+import { KeybindOption } from '../../../../shared/settings/settings.types';
 
 @Component({
   selector: 'app-volume',
   standalone: true,
   imports: [],
   templateUrl: './volume.component.html',
+  host: {
+    '(window:keydown)': 'handleKeyPress($event)',
+  },
 })
 export class VolumeComponent {
+  settingsService = inject(SettingsService);
   audioService = inject(AudioService);
   isMuted = false;
 
@@ -25,5 +31,14 @@ export class VolumeComponent {
     }
 
     this.isMuted = !this.isMuted;
+  }
+  
+  handleKeyPress(event: KeyboardEvent) {
+    if (this.settingsService.isModalOpen()) return;
+
+    const keybind = this.settingsService.getKeybind(KeybindOption.MuteAudio);
+    if (event.key !== keybind) return;
+    
+    this.toggleMute();
   }
 }

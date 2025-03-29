@@ -1,2 +1,19 @@
-
-<kbd class="kbd">{{keybind}}</kbd>
+<div
+  class="w-full flex justify-between items-center input hover:cursor-pointer"
+  [class]="{
+    'input-accent': isListening,
+    'input-error': keyIsAlreadyUsed(),
+    'tooltip': keyIsAlreadyUsed(),
+    'tooltip-open': keyIsAlreadyUsed(),
+    'tooltip-error': keyIsAlreadyUsed()
+  }"
+  data-tip="Key is already used"
+  (click)="startListening()"
+>
+  <label class="text-sm">{{ keybindOption() }}</label>
+  @if(isListening) {
+  <span>Listening...</span>
+  } @else {
+  <kbd class="kbd">{{ keybind | keybindDisplay}}</kbd>
+  }
+</div>

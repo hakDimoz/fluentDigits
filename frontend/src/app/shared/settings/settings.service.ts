@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { LanguageOption } from '@shared/language.types';
 import { KeybindOption, NumberRange, SettingOptions } from './settings.types';
 
@@ -12,28 +12,34 @@ export class SettingsService {
     voices: [],
   });
   selectedNumberRange = signal<NumberRange>({ min: 0, max: 10 });
-  keybinds = signal<Record<KeybindOption, string>>({
-    [KeybindOption.ToggleAudio]: 'Space',
+  defaultKeybinds: Record<KeybindOption, string> = {
+    [KeybindOption.ToggleAudio]: ' ',
     [KeybindOption.GuessQuestion]: 'Enter',
-    [KeybindOption.SkipQuestion]: 'S',
-    [KeybindOption.MuteAudio]: 'M',
-  });
+    [KeybindOption.SkipQuestion]: 's',
+    [KeybindOption.MuteAudio]: 'm',
+  };
 
-  constructor() {
-    effect(() => {
-      console.log('Language Option:', this.selectedLanguage());
-      console.log('Number Range:', this.selectedNumberRange());
-    });
-  }
+  keybinds = signal<Record<KeybindOption, string>>({
+    [KeybindOption.ToggleAudio]: ' ',
+    [KeybindOption.GuessQuestion]: 'Enter',
+    [KeybindOption.SkipQuestion]: 's',
+    [KeybindOption.MuteAudio]: 'm',
+  });
+  keybindsArray = computed<[KeybindOption, string][]>(() => {
+    const record = this.keybinds();
+    return Object.entries(record).map(
+      ([key, value]) => [key as KeybindOption, value],
+      []
+    ) as [KeybindOption, string][];
+  });
+  isListeningForKeys = signal(false);
+  isModalOpen = signal<boolean>(false);
 
   getKeybind(keybindOption: KeybindOption) {
     return this.keybinds()[keybindOption];
   }
 
-  setKeybind(keybindOption: KeybindOption, keybind: string) {
-    this.keybinds.set({
-      ...this.keybinds(),
-      [keybindOption]: keybind,
-    });
+  updateKeybind(keybindOption: KeybindOption, keybind: string) {
+    this.keybinds.update((kb) => ({ ...kb, [keybindOption]: keybind }));
   }
 }

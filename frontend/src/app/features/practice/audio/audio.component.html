@@ -37,4 +37,4 @@
   }
 </button>
 
-<audio #audioRef [src]="src()" (ended)="onEnded()"></audio>
+<audio #audioRef [src]="src()" (ended)="onEnded()" (loadstart)="onLoadStart()" (loadedmetadata)="onMetadataLoaded($event)"></audio>

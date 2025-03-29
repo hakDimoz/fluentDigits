@@ -6,6 +6,7 @@ import { SettingsService } from '../../../../shared/settings/settings.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NumberRange } from '../../../../shared/settings/settings.types';
+import { LanguagesService } from '../../../../shared/languages/languages.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { NumberRange } from '../../../../shared/settings/settings.types';
 export class HomeComponent {
   settingsService = inject(SettingsService);
   router = inject(Router);
+  languageService = inject(LanguagesService);
 
   selectedLanguage = this.settingsService.selectedLanguage();
   selectedNumberRange = this.settingsService.selectedNumberRange();
@@ -32,7 +34,6 @@ export class HomeComponent {
     this.settingsService.selectedLanguage.set(this.selectedLanguage);
     this.settingsService.selectedNumberRange.set(this.selectedNumberRange);
     this.router.navigate(['/practice']);
-
     return;
   }
 }

@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { effect, inject, Injectable, OnInit, signal } from '@angular/core';
+import {  computed, inject, Injectable, signal } from '@angular/core';
 import { LanguageOption } from '@shared/language.types';
-import { map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { RandomNumberAudioRequest } from './language.types';
-import { Question } from '../../features/practice/practice.types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +11,10 @@ export class LanguagesService {
   private http = inject(HttpClient);
 
   languages = signal<LanguageOption[]>([]);
+  isLoading = computed(() => this.languages().length === 0);
 
   constructor() {
     this.getLanguages();
-    effect(() => {
-      console.log(this.languages());
-    });
   }
 
   private getLanguages() {
@@ -28,5 +23,7 @@ export class LanguagesService {
       .subscribe((languages) => {
         this.languages.set(languages);
       });
+
   }
+
 }

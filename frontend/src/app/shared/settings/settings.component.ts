@@ -13,23 +13,42 @@ import { SettingsService } from './settings.service';
 import { LanguageOption } from '@shared/language.types';
 import { FormsModule } from '@angular/forms';
 import { KeybindOption, NumberRange } from './settings.types';
-import { KeybindComponent } from "./keybind/keybind.component";
+import { KeybindComponent } from './keybind/keybind.component';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [SelectLanguageComponent, SelectNumberRangeComponent, FormsModule, KeybindComponent],
+  imports: [
+    SelectLanguageComponent,
+    SelectNumberRangeComponent,
+    FormsModule,
+    KeybindComponent,
+  ],
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
   readonly KeybindOption = KeybindOption;
-  
+
   settingsService = inject(SettingsService);
   settingsModal =
     viewChild.required<ElementRef<HTMLDialogElement>>('settingsModal');
   selectedLanguage = this.settingsService.selectedLanguage();
   selectedNumberRange = this.settingsService.selectedNumberRange();
+  keybinds = { ...this.settingsService.keybinds() };
+  keybindsArray = this.settingsService.keybindsArray;
+  isShowingToast = signal(false);
+
   settingsChange = output();
+
+  onKeybindChange(keybindDetails: { option: KeybindOption; keybind: string }) {
+    this.keybinds[keybindDetails.option] = keybindDetails.keybind;
+  }
+
+  resetToDefaultKeybinds() {
+    console.log('resetting keybinds');
+    this.keybinds = { ...this.settingsService.defaultKeybinds }
+
+  }
 
   onLanguageChange(language: LanguageOption) {
     this.selectedLanguage = language;
@@ -40,10 +59,12 @@ export class SettingsComponent {
   }
 
   showModal() {
+    this.settingsService.isModalOpen.set(true);
     this.settingsModal().nativeElement.showModal();
   }
 
   closeModal() {
+    this.settingsService.isModalOpen.set(false);
     this.settingsModal().nativeElement.close();
   }
 
@@ -53,10 +74,17 @@ export class SettingsComponent {
     }
   }
 
+  showToast() {
+    this.isShowingToast.set(true);
+
+    setTimeout(() => this.isShowingToast.set(false), 3000);
+  }
+
   onSubmit() {
     this.settingsService.selectedLanguage.set(this.selectedLanguage);
     this.settingsService.selectedNumberRange.set(this.selectedNumberRange);
-    this.closeModal();
+    this.settingsService.keybinds.set(this.keybinds);
     this.settingsChange.emit();
+    this.showToast();
   }
 }
