@@ -71,6 +71,10 @@ export class AudioComponent implements OnInit {
     this.audioRef().nativeElement.play();
     this.isPlaying.set(true);
     this.audioService.isPlaying.set(true);
+
+    if (!this.audioService.hasPlayedOnce()) {
+      this.audioService.hasPlayedOnce.set(true);
+    }
   }
 
   pause() {
@@ -94,7 +98,6 @@ export class AudioComponent implements OnInit {
       this.play();
       setTimeout(() => {
         this.audioService.hasPlayedOnce.set(true);
-        console.log('has played once: ', this.audioService.hasPlayedOnce());
       }, audio.duration * 1000);
     }
   }
