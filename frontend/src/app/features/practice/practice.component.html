@@ -1,10 +1,10 @@
 @if (isFirstLoad()) {
-<div class="text-center mt-80">
+<div class="text-center w-full h-full flex flex-col items-center justify-center">
   <span class="loading loading-bars loading-xl"></span>
 </div>
 } @else {
-<div class="flex flex-col items-center justify-center mt-48">
-  <div class="w-96">
+<div class="flex flex-col sm:items-center px-2 sm:px-0 justify-center w-full h-full mt-2 sm:mt-0 sm:pb-16">
+  <div class="sm:w-96">
     <!-- Audio -->
     <app-audio
       [audioUrl]="currentQuestion()?.audio"
