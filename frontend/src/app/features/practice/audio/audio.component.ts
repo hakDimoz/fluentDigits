@@ -36,7 +36,6 @@ export class AudioComponent implements OnInit {
   src = computed(() => `${this.environment.apiURL + this.audioUrl()}`);
   isPlaying = signal<boolean>(false);
 
-
   ngOnInit(): void {
     this.audioService.setAudioElement(this.audioRef().nativeElement);
   }
@@ -54,10 +53,13 @@ export class AudioComponent implements OnInit {
   handleKeyPress(event: KeyboardEvent) {
     if (this.settingsService.isModalOpen()) return;
 
-    const keybind = this.settingsService.getKeybind(KeybindOption.ToggleAudio);
+    const keybind = this.settingsService.getKeybind(KeybindOption.RestartAudio);
     if (event.key !== keybind) return;
 
-    this.togglePlay();
+    // Play from start
+    const audio = this.audioRef().nativeElement;
+    audio.currentTime = 0; // Reset the audio to the beginning
+    this.play();
   }
 
   play() {
@@ -85,7 +87,7 @@ export class AudioComponent implements OnInit {
 
     setTimeout(() => {
       this.audioService.hasPlayedOnce.set(true);
-      console.log('has played once: ', this.audioService.hasPlayedOnce())
+      console.log('has played once: ', this.audioService.hasPlayedOnce());
     }, audio.duration * 1000);
   }
 

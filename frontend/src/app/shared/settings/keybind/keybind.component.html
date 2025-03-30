@@ -1,7 +1,7 @@
 <div
   class="w-full flex justify-between items-center input hover:cursor-pointer"
   [class]="{
-    'input-accent': isListening,
+    'input-accent': isListening(),
     'input-error': keyIsAlreadyUsed(),
     'tooltip': keyIsAlreadyUsed(),
     'tooltip-open': keyIsAlreadyUsed(),
@@ -11,7 +11,7 @@
   (click)="startListening()"
 >
   <label class="text-sm">{{ keybindOption() }}</label>
-  @if(isListening) {
+  @if(isListening()) {
   <span>Listening...</span>
   } @else {
   <kbd class="kbd">{{ keybind | keybindDisplay}}</kbd>

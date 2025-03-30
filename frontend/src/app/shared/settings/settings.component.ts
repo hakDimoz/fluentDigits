@@ -45,7 +45,6 @@ export class SettingsComponent {
   }
 
   resetToDefaultKeybinds() {
-    console.log('resetting keybinds');
     this.keybinds = { ...this.settingsService.defaultKeybinds }
 
   }

@@ -13,14 +13,14 @@ export class SettingsService {
   });
   selectedNumberRange = signal<NumberRange>({ min: 0, max: 10 });
   defaultKeybinds: Record<KeybindOption, string> = {
-    [KeybindOption.ToggleAudio]: ' ',
+    [KeybindOption.RestartAudio]: 'r',
     [KeybindOption.GuessQuestion]: 'Enter',
     [KeybindOption.SkipQuestion]: 's',
     [KeybindOption.MuteAudio]: 'm',
   };
 
   keybinds = signal<Record<KeybindOption, string>>({
-    [KeybindOption.ToggleAudio]: ' ',
+    [KeybindOption.RestartAudio]: 'r',
     [KeybindOption.GuessQuestion]: 'Enter',
     [KeybindOption.SkipQuestion]: 's',
     [KeybindOption.MuteAudio]: 'm',
@@ -35,6 +35,11 @@ export class SettingsService {
   isListeningForKeys = signal(false);
   isModalOpen = signal<boolean>(false);
 
+  constructor() {
+    effect(() => {
+      console.log(this.keybindsArray())
+    })
+  }
   getKeybind(keybindOption: KeybindOption) {
     return this.keybinds()[keybindOption];
   }

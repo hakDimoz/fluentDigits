@@ -11,7 +11,7 @@ export interface NumberRange {
 }
 
 export enum KeybindOption {
-  ToggleAudio = 'Toggle Audio',
+  RestartAudio = 'Restart Audio',
   GuessQuestion = 'Guess Question',
   SkipQuestion = 'Skip Question',
   MuteAudio = 'Mute Audio',
