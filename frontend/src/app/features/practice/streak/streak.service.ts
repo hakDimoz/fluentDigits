@@ -38,8 +38,6 @@ export class StreakService {
   }
 
   startTimer() {
-    // Reset remaining time
-
     // Countdown every second
     this.intervalId = setInterval(() => {
       if (this.remainingTimeSeconds() > 0) {

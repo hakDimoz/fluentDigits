@@ -14,11 +14,12 @@ import { SettingsService } from '../../../shared/settings/settings.service';
 import { KeybindOption } from '../../../shared/settings/settings.types';
 import { StreakService } from '../streak/streak.service';
 import { AudioService } from '../audio/audio.service';
+import { GuessedNumberComponent } from "./guessed-number/guessed-number.component";
 
 @Component({
   selector: 'app-guess',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, GuessedNumberComponent],
   templateUrl: './guess.component.html',
   host: {
     '(window:keydown)': 'handleKeyPress($event)',
@@ -40,6 +41,8 @@ export class GuessComponent {
   isCorrect = signal<boolean | undefined>(undefined);
 
   onGuess() {
+    if (!this.practiceService.canGuess()) return;
+
     if (this.guess() === this.currentQuestion()!.number) {
       this.addGuessToGuessedNumbers({
         ...this.currentQuestion()!,
