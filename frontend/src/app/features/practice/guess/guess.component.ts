@@ -62,6 +62,9 @@ export class GuessComponent {
   }
 
   onSkip() {
+    if (!this.practiceService.canGuess()) return;
+
+
     this.addGuessToGuessedNumbers({
       ...this.currentQuestion()!,
       correct: false,

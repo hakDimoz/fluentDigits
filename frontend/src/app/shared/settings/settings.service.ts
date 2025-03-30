@@ -35,11 +35,6 @@ export class SettingsService {
   isListeningForKeys = signal(false);
   isModalOpen = signal<boolean>(false);
 
-  constructor() {
-    effect(() => {
-      console.log(this.keybindsArray())
-    })
-  }
   getKeybind(keybindOption: KeybindOption) {
     return this.keybinds()[keybindOption];
   }

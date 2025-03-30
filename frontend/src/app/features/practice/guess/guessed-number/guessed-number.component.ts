@@ -17,11 +17,6 @@ export class GuessedNumberComponent {
   audioRef = viewChild.required<ElementRef<HTMLAudioElement>>('audioRef');
   src = computed(() => `${this.environment.apiURL + this.guessedNumber().audio}`);
 
-  constructor() {
-    effect(() => {
-      console.log(this.src())
-    })
-  }
   playAudio() { 
     const audio = this.audioRef().nativeElement;
     audio.currentTime = 0; // Reset the audio to the beginning

@@ -21,7 +21,6 @@ export class StreakService {
   constructor() {
     // Start timer when the user can guess
     toObservable(this.practiceService.canGuess).subscribe((canGuess) => {
-      console.log('canGuess', canGuess);
       if (canGuess && this.streak() > 0) {
         this.startTimer();
       }
