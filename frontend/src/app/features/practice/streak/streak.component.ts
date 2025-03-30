@@ -12,5 +12,4 @@ export class StreakComponent {
   streak = computed(() => this.streakService.streak());
   remainingTimePercentage = computed(() => this.streakService.remainingTimePercentage());
   longestStreak = computed(() => this.streakService.longestStreak());
-
 }
