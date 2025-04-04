@@ -8,7 +8,8 @@ import {
 	ConvertTextToSpeechRequest,
 	ListVoicesRequest,
 } from "../types/text-to-speech.model";
-import { LanguageOption, VoiceOption } from "../../../shared/language.types";
+
+import { LanguageOption, VoiceOption } from "../types/language.types";
 
 // Language map (convert "fr-FR" → "French (France)")
 export const languageMap = {
