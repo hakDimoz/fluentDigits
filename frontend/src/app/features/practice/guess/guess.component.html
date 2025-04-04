@@ -12,7 +12,7 @@
     />
     <app-tooltip [tooltipText]="'Shortcut: ' + settingsService.getKeybind(KeybindOption.GuessQuestion)">
       <button
-        class="btn btn-primary flex-1 sm:flex-none"
+        class="btn btn-primary w-full"
         [disabled]="!practiceService.canGuess()"
         (click)="onGuess()"
       >
@@ -25,7 +25,7 @@
       "
     >
       <button
-        class="btn btn-secondary flex-1 sm:flex-none"
+        class="btn btn-secondary w-full "
         [disabled]="!practiceService.canGuess()"
         (click)="onSkip()"
       >
