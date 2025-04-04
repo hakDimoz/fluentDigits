@@ -1,29 +1,43 @@
- <div class="flex flex-col items-center h-full ">
+<div class="flex flex-col items-center h-full">
   <!-- Guess input -->
-  <div class="flex flex-col sm:flex-row gap-2 justify-between w-full h-32 sm:h-auto">
+  <div
+    class="flex flex-col sm:flex-row gap-2 justify-between w-full h-32 sm:h-auto"
+  >
     <input
       type="number"
       placeholder="Enter number"
-      class="input flex-1 w-full "
+      class="input flex-1 w-full"
       [class]="{ 'input-error': isCorrect() === false }"
       [(ngModel)]="guess"
     />
-    <button
-      class="btn btn-primary flex-1 sm:flex-none"
-      [disabled]="!practiceService.canGuess()"
-      (click)="onGuess()"
+    <app-tooltip [tooltipText]="'Shortcut: ' + settingsService.getKeybind(KeybindOption.GuessQuestion)">
+      <button
+        class="btn btn-primary flex-1 sm:flex-none"
+        [disabled]="!practiceService.canGuess()"
+        (click)="onGuess()"
+      >
+        Guess
+      </button>
+    </app-tooltip>
+    <app-tooltip
+      [tooltipText]="
+        'Shortcut: ' + settingsService.getKeybind(KeybindOption.SkipQuestion)
+      "
     >
-      Guess
-    </button>
-    <button class="btn btn-secondary flex-1 sm:flex-none" [disabled]="!practiceService.canGuess()" (click)="onSkip()">
-      Skip
-    </button>
+      <button
+        class="btn btn-secondary flex-1 sm:flex-none"
+        [disabled]="!practiceService.canGuess()"
+        (click)="onSkip()"
+      >
+        Skip
+      </button>
+    </app-tooltip>
   </div>
 
   <!-- Guessed numbers -->
   <ul class="list w-full max-h-40 overflow-y-auto h-40 mt-8">
     @for (number of reversedGuessedNumbers(); track $index) {
-      <app-guessed-number [guessedNumber]="number"/>
+    <app-guessed-number [guessedNumber]="number" />
     }
   </ul>
 </div>

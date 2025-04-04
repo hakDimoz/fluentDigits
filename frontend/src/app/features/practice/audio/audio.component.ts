@@ -17,17 +17,19 @@ import { AudioService } from './audio.service';
 import { SettingsService } from '../../../shared/settings/settings.service';
 import { KeybindOption } from '../../../shared/settings/settings.types';
 import { InteractionService } from '../../../shared/interaction/interaction.service';
+import { TooltipComponent } from "../../../shared/tooltip/tooltip.component";
 
 @Component({
   selector: 'app-audio',
   standalone: true,
-  imports: [],
+  imports: [TooltipComponent],
   templateUrl: './audio.component.html',
   host: {
     '(document:keydown)': 'handleKeyPress($event)',
   },
 })
 export class AudioComponent implements OnInit {
+  readonly KeybindOption = KeybindOption;
   environment = environment;
   audioRef = viewChild.required<ElementRef<HTMLAudioElement>>('audioRef');
   interactionService = inject(InteractionService);

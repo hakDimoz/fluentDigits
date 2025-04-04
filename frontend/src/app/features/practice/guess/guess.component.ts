@@ -15,17 +15,19 @@ import { KeybindOption } from '../../../shared/settings/settings.types';
 import { StreakService } from '../streak/streak.service';
 import { AudioService } from '../audio/audio.service';
 import { GuessedNumberComponent } from "./guessed-number/guessed-number.component";
+import { TooltipComponent } from "../../../shared/tooltip/tooltip.component";
 
 @Component({
   selector: 'app-guess',
   standalone: true,
-  imports: [FormsModule, GuessedNumberComponent],
+  imports: [FormsModule, GuessedNumberComponent, TooltipComponent],
   templateUrl: './guess.component.html',
   host: {
     '(window:keydown)': 'handleKeyPress($event)',
   }
 })
 export class GuessComponent {
+  readonly KeybindOption = KeybindOption;
   practiceService = inject(PracticeService);
   settingsService = inject(SettingsService);
   streakService = inject(StreakService);
