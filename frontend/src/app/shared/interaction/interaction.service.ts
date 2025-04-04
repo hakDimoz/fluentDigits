@@ -16,9 +16,5 @@ export class InteractionService {
     window.addEventListener('touchstart', () => this.hasInteracted.set(true), {
       once: true,
     });
-
-    effect(() => {
-      console.log('User has interacted with the page:', this.hasInteracted());
-    })
   } 
 }
