@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +17,8 @@ export class InteractionService {
       once: true,
     });
 
+    effect(() => {
+      console.log('User has interacted with the page:', this.hasInteracted());
+    })
   } 
 }

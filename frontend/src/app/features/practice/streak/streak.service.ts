@@ -19,6 +19,12 @@ export class StreakService {
   private intervalId: any = null;
 
   constructor() {
+    // Retrieve the longest streak from local storage on initialization
+    const savedLongestStreak = localStorage.getItem('longestStreak');
+    if (savedLongestStreak !== null) {
+      this.longestStreak.set(parseInt(savedLongestStreak, 10));
+    }
+
     // Start timer when the user can guess
     toObservable(this.practiceService.canGuess).subscribe((canGuess) => {
       if (canGuess && this.streak() > 0) {
@@ -26,13 +32,16 @@ export class StreakService {
       }
     });
   }
+
   incrementStreak() {
     this.clearTimers();
 
     this.streak.update((streak) => streak + 1);
-    this.longestStreak.update((longestStreak) =>
-      Math.max(longestStreak, this.streak())
-    );
+    this.longestStreak.update((longestStreak) => {
+      const newLongestStreak = Math.max(longestStreak, this.streak());
+      localStorage.setItem('longestStreak', newLongestStreak.toString());
+      return newLongestStreak;
+    });
   }
 
   startTimer() {
@@ -46,15 +55,6 @@ export class StreakService {
         this.resetStreak();
       }
     }, 10);
-
-    // // Reset streak if no input
-    // this.timeoutId = setTimeout(() => {
-    //   const currentStreak = this.streak();
-
-    //   if (currentStreak === this.streak()) {
-    //     this.resetStreak();
-    //   }
-    // }, 1000 * this.maxTimeToReset());
   }
 
   resetStreak() {
@@ -70,4 +70,6 @@ export class StreakService {
     this.intervalId = null;
     this.remainingTimeMilliseconds.set(this.maxTimeToReset());
   }
+
+  
 }
