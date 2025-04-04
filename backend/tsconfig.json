@@ -3,11 +3,13 @@
 		"module": "ESNext",
 		"target": "ES6",
 		"strict": true,
-		"types": ["node"],
 		"esModuleInterop": true,
 		"moduleResolution": "node",
 		"outDir": "./dist",
 		"rootDir": "src",
+		"noImplicitAny": true,
+		"lib": ["ES2020", "DOM"],
+		"types": ["node"],
 	},
 	"exclude": ["node_modules", "dist"]
 }

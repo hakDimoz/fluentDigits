@@ -12,8 +12,9 @@
 	"devDependencies": {
 		"@types/body-parser": "^1.19.5",
 		"@types/cors": "^2.8.17",
-		"@types/express": "^5.0.0",
-		"@types/node": "^22.13.8",
+		"@types/express": "^5.0.1",
+		"@types/fs-extra": "^11.0.4",
+		"@types/node": "^22.14.0",
 		"ts-node": "^10.9.2",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.2"
