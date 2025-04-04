@@ -12,12 +12,12 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { AudioService } from './audio.service';
 import { SettingsService } from '../../../shared/settings/settings.service';
 import { KeybindOption } from '../../../shared/settings/settings.types';
 import { InteractionService } from '../../../shared/interaction/interaction.service';
-import { TooltipComponent } from "../../../shared/tooltip/tooltip.component";
+import { TooltipComponent } from '../../../shared/tooltip/tooltip.component';
 
 @Component({
   selector: 'app-audio',
@@ -40,7 +40,10 @@ export class AudioComponent implements OnInit {
     this.interactionService.hasInteracted()
   );
   audioUrl = input.required<string | undefined>();
-  src = computed(() => `${this.environment.apiURL + this.audioUrl()}`);
+  src = computed(() => {
+    const url = this.audioUrl();
+    return url ? `${this.environment.apiURL}${url}` : '';
+  });
   isPlaying = signal<boolean>(false);
 
   ngOnInit(): void {

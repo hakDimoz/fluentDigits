@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import {  computed, inject, Injectable, signal } from '@angular/core';
 import { LanguageOption } from '@shared/language.types';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

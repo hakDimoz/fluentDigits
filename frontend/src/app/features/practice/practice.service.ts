@@ -1,8 +1,8 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Question } from './practice.types';
-import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { AudioService } from './audio/audio.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
