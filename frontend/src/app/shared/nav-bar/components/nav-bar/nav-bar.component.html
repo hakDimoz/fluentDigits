@@ -2,7 +2,70 @@
   <div class="flex-1">
     <a (click)="onLogoClick()" class="btn btn-ghost text-xl">FluentDigits</a>
   </div>
-  <div>
-    <app-theme-controller [layoutType]="LayoutType.NO_BORDER" svgSize="size-8" />
+  <div class="flex gap-3 items-center justify-end">
+    <!-- Help modal -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      class="size-8 cursor-pointer"
+      (click)="showModal()"
+    >
+      <title>help</title>
+      <path
+        d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z"
+      />
+    </svg>
+
+    <!-- Theme toggle -->
+    <app-theme-controller
+      [layoutType]="LayoutType.NO_BORDER"
+      svgSize="size-8"
+    />
   </div>
 </div>
+<dialog
+  #helpModal
+  (click)="onBackdropClick($event)"
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-base-100 rounded-2xl shadow-lg w-128"
+>
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-xl font-bold">What is FluentDigits?</h1>
+    <button class="hover:cursor-pointer" (click)="closeModal()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18 18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+  <h2 class="font-semibold text-lg">How to use</h2>
+  <ol class="px-4 list-decimal">
+    <li>
+      Choose your target language and the range of numbers you want to practice.
+    </li>
+    <li>
+      Audio of a random number in your target language will be generated and
+      played to you
+    </li>
+    <li>Guess what the number is</li>
+    <li>Try and get a streak of correct answers!</li>
+  </ol>
+  <p class="pt-18">
+    Hello everyone!
+    <br />
+    As a language learner, I've always found it difficult to remember and
+    comprehend numbers in a foriegn langauge. So I decided to make this little
+    web app to help myself practice and also to improve my programming skills...
+    <br />
+  </p>
+</dialog>

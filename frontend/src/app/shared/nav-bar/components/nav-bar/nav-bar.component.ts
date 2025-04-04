@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { ThemeControllerComponent } from "../../../theme/components/theme-controller/theme-controller.component";
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { ThemeControllerComponent } from '../../../theme/components/theme-controller/theme-controller.component';
 import { LayoutType } from '../../../theme/theme-controller.model';
 import { Router } from '@angular/router';
 
@@ -12,8 +12,23 @@ import { Router } from '@angular/router';
 export class NavBarComponent {
   readonly LayoutType = LayoutType;
   router = inject(Router);
+  helpModal = viewChild.required<ElementRef<HTMLDialogElement>>('helpModal');
 
   onLogoClick() {
     this.router.navigate(['/']);
+  }
+
+  showModal() {
+    this.helpModal().nativeElement.showModal();
+  }
+
+  closeModal() {
+    this.helpModal().nativeElement.close();
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    if (event.target === this.helpModal().nativeElement) {
+      this.closeModal();
+    }
   }
 }
