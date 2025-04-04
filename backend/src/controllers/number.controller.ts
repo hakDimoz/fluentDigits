@@ -1,15 +1,15 @@
 import {
 	getRandomNumberSpeechRequest,
 	getRandomNumbersSpeechRequest,
-} from "../types/number.model";
+} from "../types/number.model.js";
 import { Request, Response } from "express";
-import { convertTextToSpeech, listVoices } from "../utilities/google-api";
+import { convertTextToSpeech, listVoices } from "../utilities/google-api.js";
 import {
 	ConvertTextToSpeechRequest,
 	ListVoicesRequest,
-} from "../types/text-to-speech.model";
+} from "../types/text-to-speech.model.js";
 
-import { LanguageOption, VoiceOption } from "../types/language.types";
+import { LanguageOption, VoiceOption } from "../types/language.types.js";
 
 // Language map (convert "fr-FR" → "French (France)")
 export const languageMap = {

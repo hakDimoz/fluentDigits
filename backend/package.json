@@ -23,6 +23,7 @@
 		"watch": "tsx watch ./src/index.ts",
 		"build": "tsc"
 	},
+	"type": "module",
 	"keywords": [],
 	"author": "",
 	"license": "ISC",

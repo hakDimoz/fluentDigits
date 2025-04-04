@@ -2,7 +2,7 @@ import textToSpeech from "@google-cloud/text-to-speech";
 import {
 	ConvertTextToSpeechRequest,
 	ListVoicesRequest,
-} from "../types/text-to-speech.model";
+} from "../types/text-to-speech.model.js";
 import path from "path";
 import fs from "fs";
 import { mkdir } from "node:fs/promises";
