@@ -11,7 +11,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-app.use(cors({origin: "https://fluentdigits.onrender.com"}));
+
+const allowedOrigins = [
+  "http://localhost:4200", 
+  "https://fluentdigits.onrender.com", 
+  "https://fluentdigits.com", 
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/audio', express.static(path.join(__dirname, 'public/audio')));
