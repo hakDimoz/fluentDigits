@@ -9,7 +9,7 @@
   >
     <div class="flex flex-col sm:flex-row gap-6 justify-between w-full">
       <div class="flex-1">
-        <app-select-language (languageChange)="onLanguageChange($event)" />
+        <app-select-language (languageChange)="onLanguageChange($event)" [isValid]="isLanguageValid()" />
       </div>
       <app-select-number-range
         class="flex-1"

@@ -21,6 +21,7 @@ export class HomeComponent {
 
   selectedLanguage = this.settingsService.selectedLanguage();
   selectedNumberRange = this.settingsService.selectedNumberRange();
+  isLanguageValid = signal(true);
 
   onLanguageChange(language: LanguageOption) {
     this.selectedLanguage = language;
@@ -31,6 +32,12 @@ export class HomeComponent {
   }
 
   onSubmit() {
+    // Check if the selected language is valid
+    if (!this.selectedLanguage) {
+      this.isLanguageValid.set(false);
+      return;
+    }
+
     this.settingsService.selectedLanguage.set(this.selectedLanguage);
     this.settingsService.selectedNumberRange.set(this.selectedNumberRange);
     this.router.navigate(['/practice']);

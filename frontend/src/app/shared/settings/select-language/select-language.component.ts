@@ -6,6 +6,7 @@ import {
   input,
   OnInit,
   output,
+  signal,
 } from '@angular/core';
 import { LanguagesService } from '../../languages/languages.service';
 import { FormsModule } from '@angular/forms';
@@ -23,10 +24,12 @@ export class SelectLanguageComponent {
   languageService = inject(LanguagesService);
 
   extraStyle = input<string>();
+  isValid = input.required<boolean>();
   languageChange = output<LanguageOption>();
   languages = this.languageService.languages;
   isLoading = this.languageService.isLoading;
   selectedLanguage!: LanguageOption;
+  selectedLanguageName: string = ''; 
   isModalOpen = computed(() => this.settingsService.isModalOpen());
 
   constructor() {
@@ -43,6 +46,9 @@ export class SelectLanguageComponent {
         this.initialiseLanguage();
       }
     });
+
+    
+
   }
 
   initialiseLanguage() {
@@ -51,9 +57,20 @@ export class SelectLanguageComponent {
         (language) =>
           language.code === this.settingsService.selectedLanguage().code
       ) || this.languages()[0];
+
+    this.selectedLanguageName = this.selectedLanguage.name;
   }
 
   onLanguageChange() {
+    this.selectedLanguage = this.languages().find((language) => {
+
+      if (language.name === this.selectedLanguageName) {
+        console.log("helo")
+        return language;
+      }
+      return false;
+    }
+    )!;
     this.languageChange.emit(this.selectedLanguage);
   }
 }

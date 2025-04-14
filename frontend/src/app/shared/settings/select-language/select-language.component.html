@@ -5,17 +5,20 @@
     <span class="loading loading-spinner loading-xs opacity-60 mt-auto"></span>
   </div>
   }
-  <label class="select w-full" >
-    <span class="label">Language</span>
 
-    <select
-      [(ngModel)]="selectedLanguage"
-      (change)="onLanguageChange()"
+  <label class="input w-full" [class]="{ 'input-error': !isValid()}">
+    <span class="label">Language</span>
+    <input
+      type="text"
+      list="languages"
       [disabled]="isLoading()"
-     >
+      (change)="onLanguageChange()"
+      [(ngModel)]="selectedLanguageName"
+    />
+    <datalist id="languages">
       @for (language of languages(); track $index) {
-      <option [ngValue]="language">{{ language.name }}</option>
+      <option [value]="language.name">{{ language.name }}</option>
       }
-    </select>
+    </datalist>
   </label>
 </div>
