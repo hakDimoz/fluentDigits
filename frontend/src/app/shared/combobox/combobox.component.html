@@ -1,0 +1,104 @@
+<div
+  class="w-full relative"
+  appClickedOutside
+  (clickOutside)="clickedOutside()"
+>
+  <!-- Btn -->
+  <div
+    (click)="toggleShowOptions()"
+    class="w-full relative border border-base-content/10 rounded-md h-10 px-3 bg-base-100 hover:bg-base-200 transition"
+  >
+    <div class="flex justify-between items-center text-sm h-full w-full">
+      <p class="select-none">
+        {{ selectedOption() ? selectedOption() : "Select " + name() }}
+      </p>
+      <svg
+        class="size-5 opacity-50"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <title>unfold-more-horizontal</title>
+
+        <path
+          d="M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z"
+        />
+      </svg>
+    </div>
+  </div>
+  <!-- Dropdown -->
+  <div
+    class="absolute top-[120%] w-full bg-base-100 rounded-box z-1 outline outline-base-content/10 shadow-lg transition-all"
+    [ngClass]="{
+      'opacity-100 scale-100 ease-out duration-100': showOptions(),
+      'opacity-0 scale-95 pointer-events-none ease-in duration-75':
+        !showOptions()
+    }"
+  >
+    <!-- Search -->
+    <label
+      class="flex h-7 pl-5 items-center input input-ghost focus-within:outline-none w-full gap-2 px-3 pb-0 p-2 m-0"
+    >
+      <svg
+        class="h-[1em] opacity-50"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2.5"
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </g>
+      </svg>
+
+      <input
+        type="search"
+        [placeholder]="'Search ' + name() + '...'"
+        [(ngModel)]="searchQuery"
+        class="w-full text-base-content/90 rounded-lg"
+      />
+    </label>
+    <span class="divider m-0 p-0"></span>
+    <ul
+      class="px-3 w-full pt-0 max-h-[16rem] overflow-y-auto overflow-x-hidden text-sm"
+    >
+      @for (option of filteredOptions(); track $index) {
+      <li
+        (click)="[selectOption(option), toggleShowOptions()]"
+        class="relative flex flex-shrink-0 flex-col items-stretch"
+      >
+        <div
+          class="flex justify-between w-full px-3 py-1.5 rounded-lg hover:bg-base-content/10 cursor-pointer transition-colors"
+        >
+          <p class="truncate">
+            {{ option }}
+          </p>
+          @if (selectedOption() === option) {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-3"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m4.5 12.75 6 6 9-13.5"
+            />
+          </svg>
+          }
+        </div>
+      </li>
+      } @if (filteredOptions().length === 0) {
+      <p class="w-full text-center text-sm p-4">No {{ name() }} found.</p>
+      }
+    </ul>
+  </div>
+</div>

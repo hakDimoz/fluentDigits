@@ -1,24 +1,2 @@
-<div class="relative">
-  @if (isLoading()) {
-  <div class="flex place-items-center gap-2 absolute -top-5 left-0">
-    <p class="text-xs opacity-60">Loading</p>
-    <span class="loading loading-spinner loading-xs opacity-60 mt-auto"></span>
-  </div>
-  }
 
-  <label class="input w-full" [class]="{ 'input-error': !isValid()}">
-    <span class="label">Language</span>
-    <input
-      type="text"
-      list="languages"
-      [disabled]="isLoading()"
-      (change)="onLanguageChange()"
-      [(ngModel)]="selectedLanguageName"
-    />
-    <datalist id="languages">
-      @for (language of languages(); track $index) {
-      <option [value]="language.name">{{ language.name }}</option>
-      }
-    </datalist>
-  </label>
-</div>
+<app-combobox name="Language" [options]="languageNames()" (optionSelected)="onLanguageChange($event)" />

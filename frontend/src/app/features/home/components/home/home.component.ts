@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NumberRange } from '../../../../shared/settings/settings.types';
 import { LanguagesService } from '../../../../shared/languages/languages.service';
+import { ComboboxComponent } from "../../../../shared/combobox/combobox.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SelectLanguageComponent, SelectNumberRangeComponent, FormsModule],
+  imports: [SelectLanguageComponent, SelectNumberRangeComponent, FormsModule, ComboboxComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
@@ -21,10 +22,13 @@ export class HomeComponent {
 
   selectedLanguage = this.settingsService.selectedLanguage();
   selectedNumberRange = this.settingsService.selectedNumberRange();
-  isLanguageValid = signal(true);
+
+  // this is dumb but i do now
+  isLanguageSelected = signal(false);
 
   onLanguageChange(language: LanguageOption) {
     this.selectedLanguage = language;
+    this.isLanguageSelected.set(true);
   }
 
   onNumberRangeChange(numberRange: NumberRange) {
@@ -32,12 +36,6 @@ export class HomeComponent {
   }
 
   onSubmit() {
-    // Check if the selected language is valid
-    if (!this.selectedLanguage) {
-      this.isLanguageValid.set(false);
-      return;
-    }
-
     this.settingsService.selectedLanguage.set(this.selectedLanguage);
     this.settingsService.selectedNumberRange.set(this.selectedNumberRange);
     this.router.navigate(['/practice']);
