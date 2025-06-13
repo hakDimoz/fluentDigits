@@ -6,16 +6,18 @@ import {
   input,
   OnInit,
   output,
+  signal,
 } from '@angular/core';
 import { LanguagesService } from '../../languages/languages.service';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from '../settings.service';
 import { LanguageOption } from '@shared/language.types';
+import { ComboboxComponent } from '../../combobox/combobox.component';
 
 @Component({
   selector: 'app-select-language',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ComboboxComponent],
   templateUrl: './select-language.component.html',
 })
 export class SelectLanguageComponent {
@@ -28,6 +30,10 @@ export class SelectLanguageComponent {
   isLoading = this.languageService.isLoading;
   selectedLanguage!: LanguageOption;
   isModalOpen = computed(() => this.settingsService.isModalOpen());
+
+  languageNames = computed(() => {
+    return this.languages().map((language) => language.name);
+  })
 
   constructor() {
     // Initilise when settings modal is open
@@ -43,6 +49,9 @@ export class SelectLanguageComponent {
         this.initialiseLanguage();
       }
     });
+
+    
+
   }
 
   initialiseLanguage() {
@@ -53,7 +62,15 @@ export class SelectLanguageComponent {
       ) || this.languages()[0];
   }
 
-  onLanguageChange() {
+  onLanguageChange(languageName: string) {
+    this.selectedLanguage = this.languages().find((language) => {
+
+      if (language.name === languageName) {
+        return language;
+      }
+      return false;
+    }
+    )!;
     this.languageChange.emit(this.selectedLanguage);
   }
 }

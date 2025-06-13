@@ -1,21 +1,2 @@
-<div class="relative">
-  @if (isLoading()) {
-  <div class="flex place-items-center gap-2 absolute -top-5 left-0">
-    <p class="text-xs opacity-60">Loading</p>
-    <span class="loading loading-spinner loading-xs opacity-60 mt-auto"></span>
-  </div>
-  }
-  <label class="select w-full" >
-    <span class="label">Language</span>
 
-    <select
-      [(ngModel)]="selectedLanguage"
-      (change)="onLanguageChange()"
-      [disabled]="isLoading()"
-     >
-      @for (language of languages(); track $index) {
-      <option [ngValue]="language">{{ language.name }}</option>
-      }
-    </select>
-  </label>
-</div>
+<app-combobox name="Language" [options]="languageNames()" (optionSelected)="onLanguageChange($event)" />

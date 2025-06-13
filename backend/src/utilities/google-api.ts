@@ -15,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
+
 const client = new textToSpeech.TextToSpeechClient({
 	keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
